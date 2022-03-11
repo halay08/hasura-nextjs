@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+  h08-frontend:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.development
+      args:
+        NPM_TOKEN: $NPM_TOKEN
+    container_name: h08-frontend
+    restart: always
+    ports:
+    - $PORT:3000
+    env_file:
+      ./.env
+    volumes:
+      - .:/home/node/app
+      - /home/node/app/node_modules
+    working_dir: /home/node/app
+    networks:
+      h08_network:
+        ipv4_address: 10.0.0.5
+networks:
+    h08_network:
+        external: true

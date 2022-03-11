@@ -1,0 +1,16 @@
+FROM node:14.17-alpine
+LABEL maintainer="Ken Le"
+
+ARG NPM_TOKEN=$(NPM_TOKEN)
+
+RUN echo -e "//npm.pkg.github.com/:_authToken=$NPM_TOKEN\n\
+@halay08:registry=https://npm.pkg.github.com/" > ~/.npmrc
+
+WORKDIR /home/node/app
+COPY *.json ./
+
+RUN npm i
+RUN rm -rf ~/.npmrc
+
+ENTRYPOINT ["npm"]
+CMD ["run", "start"]
